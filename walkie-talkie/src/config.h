@@ -3,8 +3,8 @@
 #include <driver/gpio.h>
 
 // WiFi credentials
-#define WIFI_SSID << YOUR_SSID >>
-#define WIFI_PSWD << YOUR_PASSWORD >>
+#define WIFI_SSID <<YOUR SSID>>
+#define WIFI_PSWD <<YOUR PASSWORD>>
 
 // sample rate for the system
 #define SAMPLE_RATE 16000
