@@ -75,6 +75,7 @@ void Application::begin()
   m_indicator_led->set_is_flashing(true, 0xff0000);
   m_indicator_led->begin();
 
+
   Serial.print("My IDF Version is: ");
   Serial.println(esp_get_idf_version());
 
@@ -109,10 +110,10 @@ void Application::begin()
   pinMode(GPIO_TRANSMIT_BUTTON, INPUT_PULLDOWN);
   // setup the volume control buttons
   pinMode(GPIO_VOLUME_UP_BUTTON, INPUT_PULLDOWN);
-  pinMode(GPIO_VOLUME_DOWN_BUTTON, INPUT_PULLDOWN);
+      //pinMode(GPIO_VOLUME_DOWN_BUTTON, INPUT_PULLDOWN);
   // setup the channel control buttons
   pinMode(GPIO_CHANNEL_UP_BUTTON, INPUT_PULLDOWN);
-  pinMode(GPIO_CHANNEL_DOWN_BUTTON, INPUT_PULLDOWN);
+      //pinMode(GPIO_CHANNEL_DOWN_BUTTON, INPUT_PULLDOWN);
   // start off with i2S output running
   m_output->start(SAMPLE_RATE);
   // flush all samples received during startup
@@ -120,6 +121,7 @@ void Application::begin()
   // start the main task for the application
   TaskHandle_t task_handle;
   xTaskCreate(application_task, "application_task", 8192, this, 1, &task_handle);
+
 }
 
 // application task - coordinates everything
@@ -129,8 +131,8 @@ void Application::loop()
   // continue forever
   while (true)
   {
-    // do we need to start transmitting?
-    if (digitalRead(GPIO_TRANSMIT_BUTTON))
+    // transmit while the transmit button is held, only if the volume is not held and the channel is not held.
+    if (!digitalRead(GPIO_VOLUME_UP_BUTTON) && !digitalRead(GPIO_CHANNEL_UP_BUTTON) && digitalRead(GPIO_TRANSMIT_BUTTON))
     {
       Serial.println("Started transmitting");
       m_indicator_led->set_is_flashing(true, 0xff0000);
@@ -165,7 +167,8 @@ void Application::loop()
       digitalWrite(I2S_SPEAKER_SD_PIN, HIGH);
     }
     unsigned long start_time = millis();
-    while (millis() - start_time < 1000 || !digitalRead(GPIO_TRANSMIT_BUTTON))
+    while (millis() - start_time < 1000 || !digitalRead(GPIO_TRANSMIT_BUTTON)
+           || digitalRead(GPIO_VOLUME_UP_BUTTON) || digitalRead(GPIO_CHANNEL_UP_BUTTON))
     {
       // handle volume control buttons
       handle_volume_buttons();
@@ -197,9 +200,9 @@ void Application::handle_volume_buttons()
   {
     return;
   }
-  
+
   // Check volume up button
-  if (digitalRead(GPIO_VOLUME_UP_BUTTON))
+  if (!digitalRead(GPIO_TRANSMIT_BUTTON) && digitalRead(GPIO_VOLUME_UP_BUTTON))
   {
     if (m_volume_level < VOLUME_MAX)
     {
@@ -209,10 +212,15 @@ void Application::handle_volume_buttons()
       Serial.println(m_volume_level);
       m_last_volume_button_time = current_time;
     }
+
+    setLEDMode(LEDMode::VOLUME);
+    
+      handle_LEDs();
   }
   
-  // Check volume down button
-  if (digitalRead(GPIO_VOLUME_DOWN_BUTTON))
+  // Check if the transmit button is being held while the volume button is pressed.
+  // If this happens, decrease the volume.
+  if (digitalRead(GPIO_TRANSMIT_BUTTON) && digitalRead(GPIO_VOLUME_UP_BUTTON))
   {
     if (m_volume_level > VOLUME_MIN)
     {
@@ -222,6 +230,10 @@ void Application::handle_volume_buttons()
       Serial.println(m_volume_level);
       m_last_volume_button_time = current_time;
     }
+
+    setLEDMode(LEDMode::VOLUME);
+    
+      handle_LEDs();
   }
 }
 
@@ -256,25 +268,34 @@ void Application::handle_channel_buttons()
   {
     return;
   }
-  
+
   // Check channel up button (D2 - GPIO2, active LOW with pullup)
-  if (digitalRead(GPIO_CHANNEL_UP_BUTTON))
+  if (!digitalRead(GPIO_TRANSMIT_BUTTON) && digitalRead(GPIO_CHANNEL_UP_BUTTON))
   {
     if (m_current_channel < ESP_NOW_CHANNEL_MAX)
     {
       change_channel(m_current_channel + 1);
       m_last_channel_button_time = current_time;
     }
+
+    setLEDMode(LEDMode::CHANNEL);
+    
+      handle_LEDs();
   }
   
-  // Check channel down button (D4 - GPIO4, active LOW with pullup)
-  if (digitalRead(GPIO_CHANNEL_DOWN_BUTTON))
+  // Check if the transmit button is being held when the channel up button is pressed.
+  // If this happens, decrease the channel number.
+  if (digitalRead(GPIO_TRANSMIT_BUTTON) && digitalRead(GPIO_CHANNEL_UP_BUTTON))
   {
     if (m_current_channel > ESP_NOW_CHANNEL_MIN)
     {
       change_channel(m_current_channel - 1);
       m_last_channel_button_time = current_time;
     }
+
+    setLEDMode(LEDMode::CHANNEL);
+    
+      handle_LEDs();
   }
 }
 
@@ -311,4 +332,80 @@ void Application::change_channel(uint8_t new_channel)
   // Stop LED flashing after channel change
   m_indicator_led->set_is_flashing(false, 0x0000ff); // Back to blue
 #endif
+}
+
+void Application::handle_LEDs()
+{
+  int vp = m_volume_level / 25; // Volume percentage
+  int ch = m_current_channel;
+
+  // Start all LEDs low, assigning them high if needed in the switch
+  uint8_t led1 = LOW;
+  uint8_t led2 = LOW;
+  uint8_t led3 = LOW;
+  uint8_t led4 = LOW;
+
+  if (getLEDMode() == LEDMode::VOLUME) {
+    // If the LED mode is volume, display the volume percentage
+    switch (vp) {
+      case 0:
+        break;
+      case 1:
+        led1 = HIGH;
+        break;
+      case 2:
+        led1 = HIGH;
+        led2 = HIGH;
+        break;
+      case 3:
+        led1 = HIGH;
+        led2 = HIGH;
+        led3 = HIGH;
+
+        break;
+      case 4:
+        led1 = HIGH;
+        led2 = HIGH;
+        led3 = HIGH;
+        led4 = HIGH;
+        break;
+    }
+  
+  // If not the volume, the LEDs display the channel.w
+  } else {
+    switch (ch) {
+      case 1:
+        led1 = HIGH;
+        break;
+      case 2:
+        led1 = HIGH;
+        led2 = HIGH;
+        break;
+      case 3:
+        led1 = HIGH;
+        led2 = HIGH;
+        led3 = HIGH;
+        break;
+      case 4:
+        led1 = HIGH;
+        led2 = HIGH;
+        led3 = HIGH;
+        led4 = HIGH;
+        break;
+    }
+  }
+  
+  // Write the states determined above to the LED Pins.
+  Serial.printf("GPIO_LED_1, %d\n", led1);
+  Serial.printf("GPIO_LED_2, %d\n", led2);
+  Serial.printf("GPIO_LED_3, %d\n", led3);
+  Serial.printf("GPIO_LED_4, %d\n", led4);
+}
+
+void Application::setLEDMode(Application::LEDMode mode) {
+  led_mode = mode;
+}
+
+Application::LEDMode Application::getLEDMode() const {
+  return led_mode;
 }
