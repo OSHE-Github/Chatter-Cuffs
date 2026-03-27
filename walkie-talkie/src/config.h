@@ -3,8 +3,8 @@
 #include <driver/gpio.h>
 
 // WiFi credentials
-#define WIFI_SSID <<YOUR SSID>>
-#define WIFI_PSWD <<YOUR PASSWORD>>
+#define WIFI_SSID chattertest
+#define WIFI_PSWD test1234
 
 // sample rate for the system
 #define SAMPLE_RATE 16000
@@ -20,33 +20,51 @@
 // #define I2S_MIC_CHANNEL I2S_CHANNEL_FMT_ONLY_RIGHT
 #define I2S_MIC_SERIAL_CLOCK GPIO_NUM_18
 #define I2S_MIC_LEFT_RIGHT_CLOCK GPIO_NUM_19
-#define I2S_MIC_SERIAL_DATA GPIO_NUM_21
+#define I2S_MIC_SERIAL_DATA GPIO_NUM_5
 
 // Analog Microphone Settings - ADC1_CHANNEL_7 is GPIO35
-#define ADC_MIC_CHANNEL ADC1_CHANNEL_7
+#define ADC_MIC_CHANNEL GPIO_NUM_5
 
 // speaker settings
 #define USE_I2S_SPEAKER_OUTPUT
 #define I2S_SPEAKER_SERIAL_CLOCK GPIO_NUM_18
 #define I2S_SPEAKER_LEFT_RIGHT_CLOCK GPIO_NUM_19
-#define I2S_SPEAKER_SERIAL_DATA GPIO_NUM_5
+#define I2S_SPEAKER_SERIAL_DATA GPIO_NUM_2
 // Shutdown line if you have this wired up or -1 if you don't
-#define I2S_SPEAKER_SD_PIN GPIO_NUM_22
+#define I2S_SPEAKER_SD_PIN GPIO_NUM_10
 
 // transmit button
-#define GPIO_TRANSMIT_BUTTON 23
+#define GPIO_TRANSMIT_BUTTON GPIO_NUM_4
 
 // volume control buttons
-#define GPIO_VOLUME_UP_BUTTON 27
+#define GPIO_VOLUME_UP_BUTTON GPIO_NUM_6
 #define GPIO_VOLUME_DOWN_BUTTON 26
 
+#define ADC_INPUT_CONTROL_PIN GPIO_NUM_1
+#define INPUT_4TH_BOUND 2.45
+#define INPUT_3RD_BOUND 2.10
+#define INPUT_2ND_BOUND 1.80
+#define INPUT_1ST_BOUND 1.40
+#define INPUT_LOWER_BOUND 1.00
+
+#define GPIO_LED_LEFT GPIO_NUM_0
+#define GPIO_LED_MIDDLE GPIO_NUM_7
+#define GPIO_LED_RIGHT GPIO_NUM_6
+
+#define GPIO_VOLUME_INDICATOR_LED GPIO_NUM_3
+#define GPIO_CHANNEL_INDICATOR_LED GPIO_NUM_8
+
 // channel control buttons (for ESP-NOW channel switching)
-#define GPIO_CHANNEL_UP_BUTTON 2    // D2
+#define GPIO_CHANNEL_UP_BUTTON GPIO_NUM_8    // D2
 #define GPIO_CHANNEL_DOWN_BUTTON 4  // D4
 
 // Which LED pin do you want to use? TinyPico LED or the builtin LED of a generic ESP32 board?
 // Comment out this line to use the builtin LED of a generic ESP32 board
 // #define USE_LED_GENERIC
+#define GPIO_LED_1 GPIO_NUM_0
+#define GPIO_LED_2 GPIO_NUM_1
+#define GPIO_LED_3 GPIO_NUM_4
+#define GPIO_LED_4 GPIO_NUM_3
 
 // Which transport do you want to use? ESP_NOW or UDP?
 // comment out this line to use UDP
@@ -56,7 +74,7 @@
 #define ESP_NOW_WIFI_CHANNEL 1
 // Channel range for ESP-NOW (1-11 for 2.4GHz WiFi channels)
 #define ESP_NOW_CHANNEL_MIN 1
-#define ESP_NOW_CHANNEL_MAX 11
+#define ESP_NOW_CHANNEL_MAX 4
 
 // In case all transport packets need a header (to avoid interference with other applications or walkie talkie sets), 
 // specify TRANSPORT_HEADER_SIZE (the length in bytes of the header) in the next line, and define the transport header in config.cpp
