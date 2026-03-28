@@ -34,17 +34,19 @@ private:
   unsigned long m_last_channel_button_time;
   static const unsigned long CHANNEL_BUTTON_DEBOUNCE_MS = 500;
 
+  unsigned long m_last_button_time;
+  static const unsigned long BUTTON_DEBOUNCE_MS = 500;
+
 public:
   Application();
   void begin();
   void loop();
 
 private:
-  void handle_volume_buttons();
-  void handle_channel_buttons();
   void apply_volume_to_samples(int16_t *samples, int count);
   void change_channel(uint8_t new_channel);
   void setLEDMode(LEDMode mode);
   LEDMode getLEDMode() const;
   void handle_LEDs();
+  void handle_input_buttons();
 };
