@@ -3,14 +3,14 @@
 #include <driver/gpio.h>
 
 // WiFi credentials
-#define WIFI_SSID <<SSID>
+#define WIFI_SSID <<SSID>>
 #define WIFI_PSWD <<PSWD>>
 
 // sample rate for the system
 #define SAMPLE_RATE 16000
 
 // are you using an I2S microphone - comment this if you want to use an analog mic and ADC input
-#define USE_I2S_MIC_INPUT
+//#define USE_I2S_MIC_INPUT
 
 // I2S Microphone Settings
 
@@ -19,11 +19,11 @@
 #define I2S_MIC_CHANNEL I2S_CHANNEL_FMT_ONLY_LEFT
 // #define I2S_MIC_CHANNEL I2S_CHANNEL_FMT_ONLY_RIGHT
 #define I2S_MIC_SERIAL_CLOCK GPIO_NUM_18
-#define I2S_MIC_LEFT_RIGHT_CLOCK -1
+#define I2S_MIC_LEFT_RIGHT_CLOCK GPIO_NUM_19
 #define I2S_MIC_SERIAL_DATA GPIO_NUM_5
 
 // Analog Microphone Settings - ADC1_CHANNEL_7 is GPIO35
-#define ADC_MIC_CHANNEL GPIO_NUM_5
+#define ADC_MIC_CHANNEL GPIO_5
 
 // speaker settings
 #define USE_I2S_SPEAKER_OUTPUT
@@ -37,11 +37,11 @@
 #define GPIO_TRANSMIT_BUTTON GPIO_NUM_4
 
 #define ADC_INPUT_CONTROL_PIN GPIO_NUM_1
-#define INPUT_4TH_BOUND 1.9
-#define INPUT_3RD_BOUND 1.3
-#define INPUT_2ND_BOUND 0.7
-#define INPUT_1ST_BOUND 0.07
-#define INPUT_LOWER_BOUND 0.03
+#define INPUT_4TH_BOUND 3400
+#define INPUT_3RD_BOUND 2500
+#define INPUT_2ND_BOUND 1500
+#define INPUT_1ST_BOUND 1000
+#define INPUT_LOWER_BOUND 900
 
 #define GPIO_LED_LEFT GPIO_NUM_0
 #define GPIO_LED_MIDDLE GPIO_NUM_7
@@ -49,10 +49,6 @@
 
 #define GPIO_VOLUME_INDICATOR_LED GPIO_NUM_3
 #define GPIO_CHANNEL_INDICATOR_LED GPIO_NUM_8
-
-// channel control buttons (for ESP-NOW channel switching)
-#define GPIO_CHANNEL_UP_BUTTON GPIO_NUM_8    // D2
-#define GPIO_CHANNEL_DOWN_BUTTON GPIO_NUM_4  // D4
 
 // Which LED pin do you want to use? TinyPico LED or the builtin LED of a generic ESP32 board?
 // Comment out this line to use the builtin LED of a generic ESP32 board
@@ -62,9 +58,9 @@
 // comment out this line to use UDP
 #define USE_ESP_NOW
 
-// On which wifi channel (1-11) should ESP-Now transmit? The default ESP-Now channel on ESP32 is channel 1
+// On which wifi channel (1-4) should ESP-Now transmit? The default ESP-Now channel on ESP32 is channel 1
 #define ESP_NOW_WIFI_CHANNEL 1
-// Channel range for ESP-NOW (1-11 for 2.4GHz WiFi channels)
+// Channel range for ESP-NOW (1-4 for 2.4GHz WiFi channels)
 #define ESP_NOW_CHANNEL_MIN 1
 #define ESP_NOW_CHANNEL_MAX 4
 
