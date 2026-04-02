@@ -11,6 +11,7 @@
 #include "EspNowTransport.h"
 #include "OutputBuffer.h"
 #include "config.h"
+#include <math.h>
 
 #ifdef ARDUINO_TINYPICO
 #include "TinyPICOIndicatorLed.h"
@@ -39,7 +40,7 @@ Application::Application()
 #ifdef USE_I2S_MIC_INPUT
   m_input = new I2SMEMSSampler(I2S_NUM_0, i2s_mic_pins, i2s_mic_Config,128);
 #else
-  m_input = new ADCSampler(ADC_UNIT_1, ADC1_CHANNEL_7, i2s_adc_config);
+  m_input = new ADCSampler(ADC_UNIT_2, ADC2_CHANNEL_0, i2s_adc_config);
 #endif
 
 #ifdef USE_I2S_SPEAKER_OUTPUT
@@ -147,13 +148,13 @@ void Application::loop()
       unsigned long start_time = millis();
       while (millis() - start_time < 1000 || !digitalRead(GPIO_TRANSMIT_BUTTON))
       {
-        //if (((millis() - start_time) % 500) < 250) {
-         // digitalWrite(GPIO_VOLUME_INDICATOR_LED, HIGH);
-        //  digitalWrite(GPIO_CHANNEL_INDICATOR_LED, HIGH);
-        //} else {
-        //  digitalWrite(GPIO_VOLUME_INDICATOR_LED, LOW);
-        //  digitalWrite(GPIO_CHANNEL_INDICATOR_LED, LOW);
-        //}
+        if (((millis() - start_time) % 500) < 250) {
+          digitalWrite(GPIO_VOLUME_INDICATOR_LED, HIGH);
+          digitalWrite(GPIO_CHANNEL_INDICATOR_LED, HIGH);
+        } else {
+          digitalWrite(GPIO_VOLUME_INDICATOR_LED, LOW);
+          digitalWrite(GPIO_CHANNEL_INDICATOR_LED, LOW);
+        }
 
           // read samples from the microphone
         int samples_read = m_input->read(samples, 128);
@@ -172,7 +173,6 @@ void Application::loop()
       // finished transmitting stop the input and start the output
       //Serial.println("Finished transmitting");
       //m_indicator_led->set_is_flashing(false, 0xff0000);
-      handle_LEDs();
       m_input->stop();
       m_output->start(SAMPLE_RATE);
     }
@@ -186,14 +186,12 @@ void Application::loop()
     while (millis() - start_time < 1000 || digitalRead(GPIO_TRANSMIT_BUTTON))
     {
       // handle volume control buttons
-      handle_LEDs();
       // handle the ADC input controls
       handle_input_buttons();
 
-      
-      
       // read from the output buffer (which should be getting filled by the transport)
       m_output_buffer->remove_samples(samples, 128);
+
       // apply volume control to samples
       apply_volume_to_samples(samples, 128);
       // and send the samples to the speaker
@@ -201,7 +199,7 @@ void Application::loop()
     }
     if (I2S_SPEAKER_SD_PIN != -1)
     {
-      digitalWrite(I2S_SPEAKER_SD_PIN, LOW);
+      digitalWrite(I2S_SPEAKER_SD_PIN, HIGH);
     }
     //Serial.println("Finished Receiving");
 
@@ -232,7 +230,7 @@ void Application::apply_volume_to_samples(int16_t *samples, int count)
 
 void Application::handle_input_buttons() {
 
-  if (analogRead(ADC_INPUT_CONTROL_PIN) > 900) {
+  if (analogRead(ADC_INPUT_CONTROL_PIN) > INPUT_LOWER_BOUND) {
     double volt = analogRead(ADC_INPUT_CONTROL_PIN);
     
     unsigned long current_time = millis();
@@ -243,27 +241,27 @@ void Application::handle_input_buttons() {
       return;
     }
 
-    if (volt > 3400) {
+    if (volt > INPUT_4TH_BOUND) {
       if (m_volume_level < VOLUME_MAX)
       {
-        m_volume_level += 25;  // Increase volume by 5%
+        m_volume_level += 10;  // Increase volume by 10%
         if (m_volume_level > VOLUME_MAX) m_volume_level = VOLUME_MAX;
         //Serial.print("Volume up: ");
         //Serial.println(m_volume_level);
         m_last_button_time = current_time;
         setLEDMode(LEDMode::VOLUME);
       }
-    } else if (volt > 2500) {
+    } else if (volt > INPUT_3RD_BOUND) {
       if (m_volume_level > VOLUME_MIN)
       {
-        m_volume_level -= 25;  // Decrease volume by 5%
+        m_volume_level -= 10;  // Decrease volume by 10%
         if (m_volume_level < VOLUME_MIN) m_volume_level = VOLUME_MIN;
         //Serial.print("Volume down: ");
         //Serial.println(m_volume_level);
         m_last_button_time = current_time;
         setLEDMode(LEDMode::VOLUME);
       }
-    } else if (volt > 1500) {
+    } else if (volt > INPUT_2ND_BOUND) {
       if (m_current_channel < ESP_NOW_CHANNEL_MAX)
       {
         change_channel(m_current_channel + 1);
@@ -278,6 +276,8 @@ void Application::handle_input_buttons() {
         setLEDMode(LEDMode::CHANNEL);
       }
     }
+
+    handle_LEDs();
   }
 }
 
@@ -342,19 +342,19 @@ void Application::handle_LEDs()
   switch (ind) {
     case 0:
       break;
-    case 2:
-      led_left = HIGH;
-      break;
     case 1:
+      led_left = HIGH;
       led_mid = HIGH;
+      break;
+    case 2:
       led_right = HIGH;
       break;
     case 3:
-      led_right = HIGH;
+      led_left = HIGH;
       break;
     case 4:
-      led_left = HIGH;
       led_mid = HIGH;
+      led_right = HIGH;
       break;
   }
   
