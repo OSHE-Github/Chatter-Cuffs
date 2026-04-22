@@ -1,5 +1,10 @@
 # Chatter Cuff
 Chatter Cuff is a wrist mounted walkie talkie intended for outdoor sporting enthusiasts.
+<br/>
+
+<p align="center">
+  <img width="200" alt="oshe logo" src="https://github.com/user-attachments/assets/61bf5a2a-98b7-4360-a7c4-535ba3543745" />
+<p/>
 
 ## Project Details
 The Chatter Cuff is a student-led project sponsored by the OSHE enterprise, created to solve the limitations of traditional walkie talkies in cold-weather sports. Designed as a forearm-mounted communication device, it offers glove-friendly usability, weather-resistant electronics, and comfortable wearability. This is made ideal for skiers, snowboarders, and outdoor adventurers who need reliable communication in remote environments. Over the course of two semesters, the team prototyped, refined, and finalized a durable, user-friendly product that reimagines how slope-side communication can be both practical and intuitive. By prioritizing comfort, durability, and ease of use, the Chatter Cuff represents a meaningful leap in wearable technology for outdoor recreation.
@@ -19,9 +24,6 @@ the ESP-NOW wireless communication protocol, 2 Chatter Cuffs can communicate bac
   <img alt="A closed chatter cuff" src="/Documents/chatter2.png" />
 <p/>
 
-<p align="center">
-  <img width="200" alt="oshe logo" src="https://github.com/user-attachments/assets/61bf5a2a-98b7-4360-a7c4-535ba3543745" />
-<p/>
 
 ## Repository Structure
 Here is what's in each folder:
@@ -56,6 +58,7 @@ Here is what's in each folder:
 - Long-range ESP-32 based transmission and receiving
 - Battery power for extended outdoor use
 - Tough external shell designed to be impact resistant
+- Easily accessible transmit button and volume/channel switching buttons
 
 ### Bill of Materials
 | Part Number        | Description                               | Designator                                                                        | Cost   | Quantity | Total Cost |
@@ -118,20 +121,14 @@ Either dispense solder paste onto the larger pads or use a soldering iron to con
 Cut down the compression glove to the desired length, the glove must be able to reach the back of the enclosure, leaving around a half inch of material to sew the elastic cord around it. Set aside extra material to use for sewing. Mark the desired location of the transmission button, and sew it into place using the extra material. Cut enough elastic cord so that the diameter is slightly less than the glove, with some extra to tie a knot. Tie a knot and sew it into the end of the glove. 
 
 
-The compression glove is now complete, and ready to be adhered to the enclosure. Gently guide the end of the glove into the notch at the back of the enclosure so the cord sits into the groove. Gluing is not required, but may be helpful to keep the glove in the notch of the enclosure. You may now feed the transmission button wire through the hole at the front of the enclosure and solder the wires onto the board. Attach the antenna to the terminal jack on the ESP-32 and position the antenna within the enclosure as seen in Figure 11. 
+The compression glove is now complete, and ready to be adhered to the enclosure. Gently guide the end of the glove into the notch at the back of the enclosure so the cord sits into the groove. Gluing is not required, but may be helpful to keep the glove in the notch of the enclosure. You may now feed the transmission button wire through the hole at the front of the enclosure and solder the wires onto the board. Attach the antenna to the terminal jack on the ESP-32 and position the antenna within the enclosure.
 
-<p align="center">
-  <img width="200" alt="oshe logo" src="https://github.com/user-attachments/assets/61bf5a2a-98b7-4360-a7c4-535ba3543745" />
-<p/>
   
-The hook and loop straps can be made by using no sew tape or sew on hook and loop strips. Use the leftover compression glove material or any scrap fabric you have to make the straps any desired length. The strips should be mostly loop material with the end being the hook material all facing the same direction. Sew one end of the strips onto itself or use more hook and loop material to make the end thick so it won't go through the loops on the enclosure. Feed the finished straps through the backside of the enclosure, or the side facing away from you when wearing it, and feed it over the compression glove, and into the second loop on the enclosure, you can now feed it the other way to secure the device to your arm.You may now screw on the top of the enclosure.  
+The hook and loop straps can be made by using no sew tape or sew on hook and loop strips. Use the leftover compression glove material or any scrap fabric you have to make the straps any desired length. The strips should be mostly loop material with the end being the hook material all facing the same direction. Sew one end of the strips onto itself or use more hook and loop material to make the end thick so it won't go through the loops on the enclosure. Feed the finished straps through the backside of the enclosure, or the side facing away from you when wearing it, and feed it over the compression glove, and into the second loop on the enclosure, you can now feed it the other way to secure the device to your arm. You may now screw on the top of the enclosure.  
   
-<p align="center">
-  <img width="200" alt="oshe logo" src="https://github.com/user-attachments/assets/61bf5a2a-98b7-4360-a7c4-535ba3543745" />
-<p/>
   
 ## Spring 2026 Report
-Can be found here (add hyper link)
+The 2026 Report can be found in Documents
 
 ## Acknowledgements
 [Atomic14's ESP-32 Walkie-Talkie](https://github.com/atomic14/esp32-walkie-talkie)
