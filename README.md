@@ -33,6 +33,7 @@ Here is what's in each folder:
 2. [Hardware](https://github.com/OSHE-Github/Chatter-Cuffs/tree/main/Hardware)
     - Gerber files and other resources for making your own Chatter Cuff
 3. [walkie-talkie](https://github.com/OSHE-Github/Chatter-Cuffs/tree/main/walkie-talkie)
+    - Project code and libraries
 
 
 ## Tools Used
