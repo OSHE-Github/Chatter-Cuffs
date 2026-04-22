@@ -27,12 +27,12 @@ the ESP-NOW wireless communication protocol, 2 Chatter Cuffs can communicate bac
 
 ## Repository Structure
 Here is what's in each folder:
-1. Documents
+1. [Documents](https://github.com/OSHE-Github/Chatter-Cuffs/tree/main/Documents)
     - Documentation about the project including testing results
     - Media files for readmes
-2. Hardware
+2. [Hardware](https://github.com/OSHE-Github/Chatter-Cuffs/tree/main/Hardware)
     - Gerber files and other resources for making your own Chatter Cuff
-3. walkie-talkie
+3. [walkie-talkie](https://github.com/OSHE-Github/Chatter-Cuffs/tree/main/walkie-talkie)
     - Project code and libraries
 
 
