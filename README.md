@@ -23,11 +23,6 @@ the ESP-NOW wireless communication protocol, 2 Chatter Cuffs can communicate bac
   <img width="200" alt="oshe logo" src="https://github.com/user-attachments/assets/61bf5a2a-98b7-4360-a7c4-535ba3543745" />
 <p/>
 
-## Current State
-The current version includes:
-- Thing
-- Thing
-
 ## Repository Structure
 Here is what's in each folder:
 1. Documents
