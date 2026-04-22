@@ -128,7 +128,7 @@ The hook and loop straps can be made by using no sew tape or sew on hook and loo
   
   
 ## Spring 2026 Report
-The 2026 Report can be found in Documents
+The 2026 Report can be found [here](<Documents/Chatter Cuff Report.pdf>) in Documents
 
 ## Acknowledgements
 [Atomic14's ESP-32 Walkie-Talkie](https://github.com/atomic14/esp32-walkie-talkie)
