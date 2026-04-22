@@ -27,13 +27,12 @@ the ESP-NOW wireless communication protocol, 2 Chatter Cuffs can communicate bac
 
 ## Repository Structure
 Here is what's in each folder:
-1. Documents
+1. [Documents](https://github.com/OSHE-Github/Chatter-Cuffs/tree/main/Documents)
     - Documentation about the project including testing results
     - Media files for readmes
-2. Hardware
+2. [Hardware](https://github.com/OSHE-Github/Chatter-Cuffs/tree/main/Hardware)
     - Gerber files and other resources for making your own Chatter Cuff
-3. walkie-talkie
-    - Project code and libraries
+3. [walkie-talkie](https://github.com/OSHE-Github/Chatter-Cuffs/tree/main/walkie-talkie)
 
 
 ## Tools Used
@@ -128,7 +127,7 @@ The hook and loop straps can be made by using no sew tape or sew on hook and loo
   
   
 ## Spring 2026 Report
-The 2026 Report can be found in Documents
+The 2026 Report can be found [here](<Documents/Chatter Cuff Report.pdf>) in Documents
 
 ## Acknowledgements
 [Atomic14's ESP-32 Walkie-Talkie](https://github.com/atomic14/esp32-walkie-talkie)
