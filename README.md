@@ -11,6 +11,13 @@ Beyond its immediate benefits to adventurers, the project provided students with
 The Chatter Cuff project provides a mostly unique take on the walkie talkie format, providing users with a glove enclosure to slip under jackets and gloves for ease of use and comfort. Using an ESP32-C3-WROOM and 
 the ESP-NOW wireless communication protocol, 2 Chatter Cuffs can communicate back and forth with ease.
 
+<p align="center">
+  <img alt="An open chatter cuff" src="/Documents/chatter1.png" />
+<p/>
+
+<p align="center">
+  <img alt="A closed chatter cuff" src="/Documents/chatter2.png" />
+<p/>
 
 <p align="center">
   <img width="200" alt="oshe logo" src="https://github.com/user-attachments/assets/61bf5a2a-98b7-4360-a7c4-535ba3543745" />
